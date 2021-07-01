@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[cp1250]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath,amsthm,amssymb,mathrsfs}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{subfig}
+\usepackage[titletoc]{appendix}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{arydshln}
+\usepackage{lscape}
+\usepackage{tikz} %Package for making energy level diagrams
+\usetikzlibrary{calc,arrows,decorations.pathmorphing,intersections}
+\usepackage{slashbox}
+\usepackage{etoolbox}
+\usepackage[left = 2cm, right=2cm, top=2.5cm, bottom=2.5cm, headsep=1.2cm]{geometry}
+\usepackage{gensymb}
+\usepackage[backend=bibtex,style=numeric,citestyle=nature, natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
+\usepackage{amsmath}
+\usepackage{outlines} %Package for facilitating use of nested bullet points
+\usepackage{multirow} %Package for tables to make cells that span multiple rows
+\usepackage{makecell} %Package for linebreaks within table cells
+\usepackage{float}
+\usepackage{siunitx} %Dealing with inline math breaking over multiple lines
+\usepackage{setspace} %Package for seting linspacing
+
+\setcounter{MaxMatrixCols}{20}
+\usetikzlibrary{positioning}
+\usetikzlibrary{matrix}
+\usetikzlibrary{arrows,decorations.pathmorphing}
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\patchcmd{\bordermatrix}{\begingroup}{\begingroup\openup2\jot}{}{}
+\makeatletter
+\patchcmd{\bordermatrix}
+  {\vcenter{\kern-\ht\@ne\unvbox\z@\kern-\baselineskip}}
+  {\vcenter{\kern-\ht\@ne\unvbox\z@\kern-\baselineskip\kern3pt}}
+  {}{}
+\makeatother
+
+\newcommand{\tj}[6]{ \begin{pmatrix}
+   #1 & #2 & #3 \\
+   #4 & #5 & #6 
+  \end{pmatrix}}
+ 
+\newcommand{\sj}[6]{ \begin{Bmatrix}
+   #1 & #2 & #3 \\
+   #4 & #5 & #6 
+  \end{Bmatrix}}
+
+%Info for titlepage
+\title{C'(Tl) -term in uncoupled basis}
+\author{Oskari Timgren}
+
+\begin{document}
+	\maketitle
+	\doublespacing
+
+This document goes through the derivation of the matrix elements of the C'(Tl)-term as defined by Brown et al. in "A determination of fundamental Zeeman parameters for the OH radical" (1978):
+\begin{align}
+	H_{nsr}' = C_I' \sum_{q = \pm1} \exp(-2iq\phi) \frac{1}{2} \left[T^2_{2q}(I, J-S) + T^2_{2q}(J-S,I)\right] 
+\end{align} 
+We'll be using a basis set where the nuclear spin I is decoupled from J: $ \ket{\eta; J,\Omega, m_J, I_1, m_1, I_2, m_2} $. Since we're only interested in matrix elements for the Tl-spin, the quantum numbers for the fluorine will be suppressed; the selection rules for them will be $ \delta_{I_2, I_2'} \delta_{m_2, m_2'} $. We will also drop the electron spin operator S since it only couples to different electronic states, and thus does not contribute significantly. We can thus write the operators as $ T^2_{\pm2}(I, J) = T^1_{\pm1}(I)T^1_{\pm1}(J) $. To evaluate the matrix elements we'll use the following relations:
+
+\begin{outline}
+	\1 B\&C 5.162:
+	\begin{align}
+		&\bra{J',\Omega', m_J', I_1', m_1'}T^1_q(J)\ket{J,\Omega, m_J, I_1, m_1} \\
+		& = (-1)^{J'-\Omega'-q} \tj{J'}{1}{J'}{-\Omega'}{-q}{\Omega} \left[J'\left(J'+1\right)\left(2J'+1\right)\right]^{1/2} \delta_{J,J'} \delta_{m_J,m_J'} \delta_{I_1, I_1'} \delta_{m_1, m_1'}
+	\end{align}
+	\1 B\&C5.144 (transforming operator to lab frame),  B\&C5.172 (W-E theorem), 5.179 (reduced ME for 1st rank tensor)
+	\begin{align}
+		&\bra{J',\Omega', m_J', I_1', m_1'}T^1_q(I)\ket{J,\Omega, m_J, I_1, m_1} \\
+		=& \sum_p (-1)^{p-q}\bra{J',\Omega', m_J', I_1', m_1'}\mathit{D}^{(1)*}_{-p,-q}T^1_p(I)\ket{J,\Omega, m_J, I_1, m_1} \\
+		=& \sum_p (-1)^{p-q} (-1)^{J'-\Omega'} \left[\left(2J'+1\right)\left(2J+1\right)\right]^{1/2} \tj{J'}{1}{J}{-m_J'}{-p}{m_J} \tj{J'}{1}{J}{-\Omega'}{-q}{\Omega} \\
+		&\qquad\qquad(-1)^{I_1'-m_1'} \tj{I'}{1}{I}{-m'_1}{p}{m_1}\left[I_1\left(I_1+1\right)\left(2I_1+1\right)  \right]\delta_{I_1, I_1'} \\
+		=&  (-1)^{p-q+J'-\Omega'+I_1'-m_1'} \left[\left(2J'+1\right)\left(2J+1\right)I_1\left(I_1+1\right)\left(2I_1+1\right)\right]^{1/2} \\
+		&\qquad \tj{J'}{1}{J}{-m_J'}{-p}{m_J} \tj{J'}{1}{J}{-\Omega'}{-q}{\Omega} \tj{I'}{1}{I}{-m'_1}{p}{m_1}
+	\end{align}
+\end{outline}
+
+\end{document}
